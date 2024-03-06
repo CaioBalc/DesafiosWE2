@@ -1,4 +1,3 @@
-<?php
 function WebServiceExec($params, $data){
 	$parcelas = Db::Read()->clear()
     	    ->select([
@@ -12,7 +11,7 @@ function WebServiceExec($params, $data){
 				'cr.valor_multa',
 				'cr.valor_adesao',
 				'cr.valor_pago',
-				'c.valor_mensal'
+				'cr.valor'
      	       ])
      	   	->from('gs_contrato c')
 			->join('cx_conta_receber cr', 'c.idcontrato = cr.idcontrato')
@@ -32,8 +31,8 @@ function WebServiceExec($params, $data){
 		$valor['valor_multa'] = round($valor['valor_multa'], 2);
 		$valor['valor_adesao'] = round($valor['valor_adesao'], 2);
 		$valor['valor_pago'] = round($valor['valor_pago'], 2);
-		$valor['valor_mensal'] = round($valor['valor_mensal'], 2);
-		$valor['total'] = round((array_sum([$valor['valor_adesao'], $valor['valor_juros'], $valor['valor_multa'], $valor['valor_mensal']]))
+		$valor['valor'] = round($valor['valor'], 2);
+		$valor['total'] = round((array_sum([$valor['valor_adesao'], $valor['valor_juros'], $valor['valor_multa'], $valor['valor']]))
 			- (array_sum([$valor['valor_desconto'], $valor['valor_desconto_manual']])), 2);
 	}
 	
